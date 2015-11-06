@@ -10,6 +10,12 @@ import aiohttp
 
 
 def async_urlopen(urls, in_parallel=5):
+    """
+    Given a list of url strings return a list of responses
+    - urls: a list of urls to request
+    - in_parallel: an integer of the number of requests to send in parallel
+      at a time
+    """
     return AsyncRequest(urls, in_parallel).run()
 
 
@@ -20,11 +26,6 @@ class AsyncRequest:
     """
 
     def __init__(self, urls, in_parallel):
-        """
-        - urls: a list of urls to request
-        - in_parallel: an integer of the number of requests to send in parallel
-          at a time
-        """
         self.responses = []
         self.urls_iter = iter(urls)
         self.num_urls = len(urls)
@@ -43,5 +44,4 @@ class AsyncRequest:
 
     async def async_request(self, url):
         res = await aiohttp.get(url)
-        t = await res.text()
-        self.responses.append(t)
+        self.responses.append(await res.text())
