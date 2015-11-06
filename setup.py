@@ -3,7 +3,7 @@ from setuptools import setup
 setup(name='async_request',
       version='0.1',
       install_requires=[
-          "asyncio",
+          "aiohttp",
       ],
       description='A python 3.5 library that makes requests in parallel using async await',
       url='https://github.com/nickscript0/async_request',
