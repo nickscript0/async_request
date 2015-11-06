@@ -37,8 +37,8 @@ class AsyncRequest:
         return self.responses
 
     async def run_async(self):
-        group_size = max(math.ceil(self.num_urls / self.in_parallel), 1)
-        for i in range(group_size):
+        num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
+        for i in range(num_groups):
             await asyncio.wait([self.async_request(url)
                                 for url in islice(self.urls_iter, self.in_parallel)])
 
