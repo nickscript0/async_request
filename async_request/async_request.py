@@ -23,6 +23,20 @@ class AsyncRequest:
 
     """
     Simple wrapper for aiohttp.get to request a set of urls in parallel
+
+    - Issues: this class using @asyncio.coroutine instead of the newer async await syntax
+      due to the following error occuring with the newer syntax:
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+          File "/src/async_request/async_request.py", line 19, in async_urlopen
+            return AsyncRequest(urls, in_parallel).run()
+          File "/src/async_request/async_request.py", line 36, in run
+            loop.run_until_complete(self.run_async())
+          File "/usr/local/lib/python3.5/site-packages/asyncio-3.4.3-py3.5.egg/asyncio/base_events.py", line 296, in run_until_complete
+            future = tasks.async(future, loop=self)
+          File "/usr/local/lib/python3.5/site-packages/asyncio-3.4.3-py3.5.egg/asyncio/tasks.py", line 516, in async
+            raise TypeError('A Future or coroutine is required')
+        TypeError: A Future or coroutine is required
     """
 
     def __init__(self, urls, in_parallel):
@@ -36,12 +50,16 @@ class AsyncRequest:
         loop.run_until_complete(self.run_async())
         return self.responses
 
-    async def run_async(self):
+    @asyncio.coroutine
+    def run_async(self):  # async
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
         for i in range(num_groups):
-            await asyncio.wait([self.async_request(url)
-                                for url in islice(self.urls_iter, self.in_parallel)])
+            # await
+            yield from asyncio.wait([self.async_request(url)
+                                     for url in islice(self.urls_iter, self.in_parallel)])
 
-    async def async_request(self, url):
-        res = await aiohttp.get(url)
-        self.responses.append(await res.text())
+    @asyncio.coroutine
+    def async_request(self, url):  # async
+        res = yield from aiohttp.get(url)  # await
+        text = yield from res.text()  # await
+        self.responses.append(text)  # await
