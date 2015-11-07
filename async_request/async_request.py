@@ -1,10 +1,8 @@
 """
-A python 3.5 library that makes requests in parallel using async await.
+A python 3.5 library that makes concurrent requests using async await (PEP 492).
 
-This library is intended to be called by synchronous code,
-so the public methods do not return until all requests are complete.
-
-Usage example: async_urlopen(['https://github.com', 'https://gist.github.com'])
+This library is intended to be called by synchronous code (it's a synchronous wrapper of aiohttp.get),
+the public methods do not return until all requests are complete.
 """
 
 import asyncio
@@ -24,7 +22,7 @@ def async_urlopen(urls, in_parallel=5):
     """
     Given a list of url strings return a list of responses
     - urls: a list of urls to request
-    - in_parallel: an integer of the number of requests to send in parallel
+    - in_parallel: an integer of the number of requests to make concurrently
       at a time
     """
     return AsyncRequest(urls, in_parallel).run()
@@ -33,7 +31,7 @@ def async_urlopen(urls, in_parallel=5):
 class AsyncRequest:
 
     """
-    Simple wrapper for aiohttp.get to request a set of urls in parallel
+    Simple wrapper for aiohttp.get to request a set of urls concurrently
     """
 
     def __init__(self, urls, in_parallel):
