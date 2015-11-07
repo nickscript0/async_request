@@ -1,3 +1,10 @@
+from async_request import async_urlopen
+import logging
+
+logging.getLogger('async_request').addHandler(
+    logging.StreamHandler())
+logging.getLogger('async_request').setLevel(logging.DEBUG)
+
 URLS = (
     'css/main.css',
     'js/ext/pure-min.css',
@@ -7,8 +14,6 @@ URLS = (
 )
 
 FULL_URLS = ['http://192.168.1.80:8000/' + x for x in URLS]
-
-from async_request import async_urlopen
 
 
 def main():

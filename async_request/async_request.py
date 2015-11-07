@@ -5,8 +5,14 @@ A python 3.5 library that makes requests in parallel using async await.
 import asyncio
 import math
 from itertools import islice
+import logging
+from logging import NullHandler
+
 
 import aiohttp
+
+logging.getLogger(__name__).addHandler(NullHandler())
+logger = logging.getLogger(__name__)
 
 
 def async_urlopen(urls, in_parallel=5):
@@ -39,10 +45,12 @@ class AsyncRequest:
     async def run_async(self):
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
         for i in range(num_groups):
-            await asyncio.wait([self.async_request(url)
+            await asyncio.wait([self.async_request(url, i)
                                 for url in islice(self.urls_iter, self.in_parallel)])
 
-    async def async_request(self, url):
+    async def async_request(self, url, group_id):
         res = await aiohttp.get(url)
         text = await res.text()
+        logger.debug('Retrieved (Group {}): {} ({:.2f} KB)'.format(
+            group_id, url, len(text) / 1000))
         self.responses.append(text)
