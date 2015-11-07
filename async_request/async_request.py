@@ -8,6 +8,7 @@ the public methods do not return until all requests are complete.
 import asyncio
 import math
 from itertools import islice
+from collections import OrderedDict
 import logging
 from logging import NullHandler
 
@@ -35,7 +36,7 @@ class AsyncRequest:
     """
 
     def __init__(self, urls, in_parallel):
-        self.responses = []
+        self.request_responses = OrderedDict([(k, None) for k in urls])
         self.urls_iter = iter(urls)
         self.num_urls = len(urls)
         self.in_parallel = in_parallel
@@ -43,7 +44,7 @@ class AsyncRequest:
     def run(self):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self._runAsync())
-        return self.responses
+        return self.request_responses.values()
 
     async def _runAsync(self):
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
@@ -56,4 +57,4 @@ class AsyncRequest:
         text = await res.text()
         logger.debug('Retrieved (Group {}): {} ({:.2f} KB)'.format(
             group_id, url, len(text) / 1000))
-        self.responses.append(text)
+        self.request_responses[url] = text
