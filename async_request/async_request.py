@@ -1,5 +1,7 @@
 """
 A python 3.5 library that makes requests in parallel using async await.
+
+Usage example: async_urlopen(['https://github.com'])
 """
 
 import asyncio
@@ -39,16 +41,16 @@ class AsyncRequest:
 
     def run(self):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.run_async())
+        loop.run_until_complete(self._runAsync())
         return self.responses
 
-    async def run_async(self):
+    async def _runAsync(self):
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
         for i in range(num_groups):
-            await asyncio.wait([self.async_request(url, i)
+            await asyncio.wait([self._asyncRequest(url, i)
                                 for url in islice(self.urls_iter, self.in_parallel)])
 
-    async def async_request(self, url, group_id):
+    async def _asyncRequest(self, url, group_id):
         res = await aiohttp.get(url)
         text = await res.text()
         logger.debug('Retrieved (Group {}): {} ({:.2f} KB)'.format(
