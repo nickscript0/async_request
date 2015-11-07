@@ -44,7 +44,7 @@ class AsyncRequest:
     def run(self):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self._runAsync())
-        return self.request_responses.values()
+        return list(self.request_responses.values())
 
     async def _runAsync(self):
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
