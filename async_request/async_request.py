@@ -1,7 +1,10 @@
 """
 A python 3.5 library that makes requests in parallel using async await.
 
-Usage example: async_urlopen(['https://github.com'])
+This library is intended to be called by synchronous code,
+so the public methods do not return until all requests are complete.
+
+Usage example: async_urlopen(['https://github.com', 'https://gist.github.com'])
 """
 
 import asyncio
