@@ -5,7 +5,7 @@ setup(name='async_request',
       install_requires=[
           "aiohttp",
       ],
-      description='A python 3.5 library that makes requests in parallel using async await',
+      description='A python 3.5 library that makes concurrent requests using async await (PEP 492)',
       url='https://github.com/nickscript0/async_request',
       author='nickscript0',
       author_email='nickscript0@users.noreply.github.com',
