@@ -9,6 +9,11 @@ This library is intended to be called by synchronous code (it's a synchronous wr
 1. An exercise in using Python 3.5's new async await syntax
 
 ## Usage
+### Install
+```
+pip install git+https://github.com/nickscript0/async_request.git
+```
+
 ### Minimal example
 ```python
 from async_request import async_urlopen
