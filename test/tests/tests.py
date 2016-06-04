@@ -1,6 +1,11 @@
 import unittest
+import logging
 
 from async_request import async_urlopen
+
+logging.getLogger('async_request').addHandler(
+    logging.StreamHandler())
+logging.getLogger('async_request').setLevel(logging.DEBUG)
 
 
 class TestAsyncRequest(unittest.TestCase):
