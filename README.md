@@ -1,10 +1,10 @@
-# async_request
+# async_request [![Circle CI](https://circleci.com/gh/nickscript0/async_request.svg?style=svg)](https://circleci.com/gh/nickscript0/async_request)
 A python 3.5 library that makes concurrent requests using async await (PEP 492).
 
-This library is intended to be called by synchronous code (it's a synchronous wrapper of [aiohttp](https://github.com/KeepSafe/aiohttp).get), the public methods do not return until all requests are complete. 
+This library is intended to be called by synchronous code (it's a synchronous wrapper of [aiohttp](https://github.com/KeepSafe/aiohttp).get), the public methods do not return until all requests are complete.
 
 ## Purpose
-1. A simple way of speeding up the retrieval of a set of web requests (that are network I/O bound) using concurrency 
+1. A simple way of speeding up the retrieval of a set of web requests (that are network I/O bound) using concurrency
 1. Abstract the concurrent part away from the calling code so that a synchronous codebase can call this (without worrying about asynchronous things like asyncio.BaseEventLoop and 'async await')
 1. An exercise in using Python 3.5's new async await syntax
 
