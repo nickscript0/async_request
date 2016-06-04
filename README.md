@@ -34,5 +34,7 @@ responses = async_urlopen(['https://github.com', 'https://gist.github.com'])
 print(responses)
 ```
 
-## TODO
-1. Add automated e2e tests
+### Running Tests
+```
+docker-compose run tests
+```
