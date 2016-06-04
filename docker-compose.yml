@@ -13,6 +13,7 @@ tests:
   volumes:
     - ./test/tests:/workdir
   working_dir: /workdir
-  command: ["sh /workdir/run_tests.sh"]
+  command: sh ./run_tests.sh
+
   links:
     - testserver
