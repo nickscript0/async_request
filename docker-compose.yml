@@ -2,3 +2,9 @@ main:
   build: .
   volumes:
     - .:/src
+testserver:
+  image: nginx:stable-alpine
+  volumes:
+    - ./test/data:/usr/share/nginx/html:ro
+  ports:
+    - 6565:80
