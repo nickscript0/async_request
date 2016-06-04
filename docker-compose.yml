@@ -1,4 +1,20 @@
-main:
-  build: .
+dev:
+  image: python:3.5
+  working_dir: /workdir
   volumes:
-    - .:/src
+    - .:/workdir
+tests:
+  image: python:3.5
+  volumes:
+    - ./test/tests:/workdir
+  working_dir: /workdir
+  command: sh ./run_tests.sh
+
+  links:
+    - testserver
+testserver:
+  image: nginx:stable-alpine
+  volumes:
+    - ./test/data:/usr/share/nginx/html:ro
+  ports:
+    - 6565:80

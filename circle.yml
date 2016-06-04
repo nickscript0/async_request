@@ -1,0 +1,11 @@
+machine:
+  services:
+    - docker
+dependencies:
+  pre:
+     - sudo pip install docker-compose
+test:
+  override:
+     - docker-compose run tests
+  post:
+     - docker-compose stop
