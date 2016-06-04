@@ -8,3 +8,11 @@ testserver:
     - ./test/data:/usr/share/nginx/html:ro
   ports:
     - 6565:80
+tests:
+  image: python:3.5
+  volumes:
+    - ./test/tests:/workdir
+  working_dir: /workdir
+  command: ["sh /workdir/run_tests.sh"]
+  links:
+    - testserver

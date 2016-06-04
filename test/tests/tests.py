@@ -1,0 +1,17 @@
+import unittest
+
+from async_request import async_urlopen
+
+
+class TestStringMethods(unittest.TestCase):
+
+    def test_twoRequestsReturnResponses(self):
+        responses = async_urlopen(
+            ['http://testserver/test1.txt', 'http://testserver/test2.txt'])
+
+        expected_responses = ['test 1', 'test 2']
+        for i in range(len(expected_responses)):
+            self.assertEquals(responses[i].strip(), expected_responses[i])
+
+if __name__ == '__main__':
+    unittest.main()
