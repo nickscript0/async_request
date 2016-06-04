@@ -13,5 +13,8 @@ class TestAsyncRequest(unittest.TestCase):
         for i in range(len(expected_responses)):
             self.assertEquals(responses[i].strip(), expected_responses[i])
 
+    def test_async_urlopen_DEBUGGING(self):
+        self.assertEquals(True, False)
+
 if __name__ == '__main__':
     unittest.main()
