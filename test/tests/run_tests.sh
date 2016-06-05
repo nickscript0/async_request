@@ -1,3 +1,4 @@
 #!/bin/sh
+pip install nose
 pip install git+https://github.com/nickscript0/async_request.git
-python tests.py
+nosetests --with-xunit

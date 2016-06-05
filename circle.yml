@@ -10,5 +10,6 @@ dependencies:
 test:
   override:
      - docker-compose run tests
+     - cp test/tests/nosetests.xml $CIRCLE_TEST_REPORTS
   post:
      - docker-compose stop
