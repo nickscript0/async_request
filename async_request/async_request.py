@@ -48,13 +48,15 @@ class AsyncRequest:
 
     async def _runAsync(self):
         num_groups = max(math.ceil(self.num_urls / self.in_parallel), 1)
-        for i in range(num_groups):
-            await asyncio.wait([self._asyncRequest(url, i)
-                                for url in islice(self.urls_iter, self.in_parallel)])
+        async with aiohttp.ClientSession() as session:
+            for i in range(num_groups):
+                await asyncio.wait([self._asyncRequest(url, i, session)
+                                    for url in islice(self.urls_iter, self.in_parallel)])
 
-    async def _asyncRequest(self, url, group_id):
-        res = await aiohttp.get(url)
-        text = await res.text()
-        logger.debug('Retrieved (Group {}): {} ({:.2f} KB)'.format(
-            group_id, url, len(text) / 1000))
-        self.request_responses[url] = text
+    async def _asyncRequest(self, url, group_id, session):
+
+        async with session.get(url) as res:
+            text = await res.text()
+            logger.debug('Retrieved (Group {}): {} ({:.2f} KB)'.format(
+                group_id, url, len(text) / 1000))
+            self.request_responses[url] = text
