@@ -1,5 +1,5 @@
 # async_request [![Circle CI](https://circleci.com/gh/nickscript0/async_request.svg?style=svg)](https://circleci.com/gh/nickscript0/async_request)
-A python 3.5 library that makes concurrent requests using async await (PEP 492).
+A python 3.5 library that makes concurrent requests using async await ([PEP 492](https://www.python.org/dev/peps/pep-0492/)).
 
 This library is intended to be called by synchronous code (it's a synchronous wrapper of [aiohttp](https://github.com/KeepSafe/aiohttp).get), the public methods do not return until all requests are complete.
 
