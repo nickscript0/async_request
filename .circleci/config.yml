@@ -1,0 +1,17 @@
+version: 2
+jobs:
+   build:
+     docker:
+       - image: circleci/python:3.6.2
+     steps:
+       - checkout
+      - run:
+          command: 
+            sudo pip install docker-compose
+      - run:
+          command: 
+            docker-compose run --rm tests
+            cp test/tests/nosetests.xml $CIRCLE_TEST_REPORTS    
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
